@@ -1,0 +1,55 @@
+stages:
+  - build
+  - test
+  - coverage
+  - codacy
+
+variables:
+  # Define your environment-specific variables here
+  CODACY_PROJECT_TOKEN: "<Your-Codacy-Project-Token>"
+
+# Define the image that contains Java and Gradle
+image: gradle:8.0-jdk11
+
+before_script:
+  # Set up the Gradle wrapper
+  - chmod +x ./gradlew
+
+# Define job templates for reuse
+.default_template: &default_template
+  stage: build
+  script:
+    - ./gradlew assemble
+
+# Build job
+build:
+  <<: *default_template
+  artifacts:
+    paths:
+      - build/libs/*.jar
+
+# Test job
+test:
+  stage: test
+  script:
+    - ./gradlew test
+
+# Code coverage job
+coverage:
+  stage: coverage
+  script:
+    - ./gradlew jacocoTestReport
+  artifacts:
+    paths:
+      - build/reports/jacoco/test/html/
+
+# Codacy code quality analysis job
+codacy:
+  stage: codacy
+  script:
+    - curl -L "https://downloads.codacy.com/bin/codacy-coverage-reporter-assembly-latest.jar" -o codacy-coverage-reporter.jar
+    - java -jar codacy-coverage-reporter.jar report -l Java -r build/reports/jacoco/test/jacocoTestReport.xml
+  only:
+    - merge_requests # Run only on merge requests
+
+# Define additional jobs or customize the existing ones as needed.
