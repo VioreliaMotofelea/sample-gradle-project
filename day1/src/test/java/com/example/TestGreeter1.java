@@ -8,8 +8,6 @@ import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.example.Greeter1;
-
 public class TestGreeter1 {
 
     public Greeter1 greeter1;
