@@ -5,14 +5,14 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class TestGreeter2 {
 
     private Greeter2 greeter;
 
-    @Before
+    @BeforeEach
     public void setup() {
         greeter = new Greeter2();
     }

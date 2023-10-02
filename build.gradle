@@ -48,22 +48,28 @@ subprojects {
         }
 
         jacoco {
-            includes = ["com.example.*"]
+            includes = ["**"]
         }
     }
 
     jacocoTestReport {
         dependsOn test // tests are required to run before generating the report
         reports {
-            xml.required = false
+            xml.required = true
             csv.required = false
-            html.required = true
+            html.required = false
         }
     }
 
     jacoco {
         toolVersion = "0.8.5"
     }
+
 }
 
 test.finalizedBy jacocoTestReport
+
+task uploadCoverage(type:Exec, dependsOn: testCodeCoverageReport) {
+    description 'Uploads coverage data to Codacy.'
+    commandLine 'bash', '-c', 'bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml'
+}
