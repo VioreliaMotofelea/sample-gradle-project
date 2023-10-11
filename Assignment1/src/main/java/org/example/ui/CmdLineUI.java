@@ -86,15 +86,17 @@ public class CmdLineUI {
     }
 
     private String readOperation() throws IOException {
+        String op = null;
         try {
-            String op = reader.readLine().trim();
-            assert controller.isAllowedOperation(op);
-            return op;
+            op = reader.readLine().trim();
+
         } catch (IOException e) {
             throw new IOException(e);
-        } catch (Exception e) {
-            throw new RuntimeException("Not a permitted operation!");
         }
+
+        if (!controller.isAllowedOperation(op))
+            throw new RuntimeException("Not a recognized operation");
+        return op;
     }
 
     private Float readNumber() {
