@@ -44,7 +44,7 @@ public class CmdLineUI {
             return;
         }
 
-        Float nr1, nr2;
+        Float nr1 = null, nr2 = null;
 
         if (controller.hasPreviousResult()) {
             nr1 = controller.getPreviousResult();
@@ -52,7 +52,9 @@ public class CmdLineUI {
             nr1 = readNumber();
         }
 
-        nr2 = readNumber();
+        if (!operation.equals("sqrt")) {
+            nr2 = readNumber();
+        }
 
         Float result = computeOperation(operation, nr1, nr2);
         displayResult(result);
@@ -66,6 +68,18 @@ public class CmdLineUI {
         switch (operation) {
             case "+":
                 return controller.performAddOperation(nr1, nr2);
+            case "-":
+                return controller.performDeleteOperation(nr1, nr2);
+            case "*":
+                return controller.performMultiplyOperation(nr1, nr2);
+            case "/":
+                return controller.performDivideOperation(nr1, nr2);
+            case "min":
+                return controller.performMinOperation(nr1, nr2);
+            case "max":
+                return controller.performMaxOperation(nr1, nr2);
+            case "sqrt":
+                return controller.performSqrtOperation(nr1);
             default:
                 throw new RuntimeException("Could not perform operation");
         }

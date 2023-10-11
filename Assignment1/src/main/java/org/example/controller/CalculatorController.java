@@ -1,6 +1,6 @@
 package org.example.controller;
 
-import org.example.domain.AddOperation;
+import org.example.domain.*;
 import org.example.repository.CalculatorRepo;
 
 import java.util.ArrayList;
@@ -34,5 +34,29 @@ public class CalculatorController {
 
     public Float performAddOperation(Float a, Float b) {
         return calculatorRepo.performOperation(new AddOperation(a, b));
+    }
+
+    public Float performDeleteOperation(Float nr1, Float nr2) {
+        return calculatorRepo.performOperation(new DeleteOperation(nr1, nr2));
+    }
+
+    public Float performMultiplyOperation(Float nr1, Float nr2) {
+        return calculatorRepo.performOperation(new MultiplyOperation(nr1, nr2));
+    }
+
+    public Float performDivideOperation(Float nr1, Float nr2) {
+        return calculatorRepo.performOperation(new DivideOperation(nr1, nr2));
+    }
+
+    public Float performMinOperation(Float nr1, Float nr2) {
+        return calculatorRepo.performOperation(new MinOperation(nr1, nr2));
+    }
+
+    public Float performMaxOperation(Float nr1, Float nr2) {
+        return calculatorRepo.performOperation(new MaxOperation(nr1, nr2));
+    }
+
+    public Float performSqrtOperation(Float nr) {
+        return calculatorRepo.performOperation(new SqrtOperation(nr));
     }
 }
