@@ -7,6 +7,7 @@ import static org.hamcrest.Matchers.is;
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class TestGreeter1 {
 
@@ -29,5 +30,7 @@ public class TestGreeter1 {
         String someone = "World";
 
         MatcherAssert.assertThat(greeter1.greet(someone).length(), is(greaterThan(someone.length())));
+
+        assertNull(greeter1.greet(null));
     }
 }
