@@ -9,6 +9,6 @@ public class DivideOperation extends BinaryOperation<Float>{
     public Float compute() throws ArithmeticException {
         if (term2 == 0)
             throw new ArithmeticException("Cannot divide by 0!");
-        return term1 * term2;
+        return term1 / term2;
     }
 }
