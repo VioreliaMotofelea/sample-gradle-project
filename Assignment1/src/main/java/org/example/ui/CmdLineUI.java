@@ -22,7 +22,7 @@ public class CmdLineUI {
         while (true) {
             try {
                 displayOneStep();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 System.out.println("An error occured: " + e.getMessage());
             }
         }
