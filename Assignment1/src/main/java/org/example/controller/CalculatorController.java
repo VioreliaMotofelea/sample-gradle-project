@@ -1,6 +1,12 @@
 package org.example.controller;
 
-import org.example.domain.*;
+import org.example.domain.AddOperation;
+import org.example.domain.DeleteOperation;
+import org.example.domain.DivideOperation;
+import org.example.domain.MaxOperation;
+import org.example.domain.MinOperation;
+import org.example.domain.MultiplyOperation;
+import org.example.domain.SqrtOperation;
 import org.example.repository.CalculatorRepo;
 
 import java.util.ArrayList;
@@ -8,16 +14,19 @@ import java.util.List;
 
 public class CalculatorController {
     private final CalculatorRepo<Float> calculatorRepo;
-    private final List<String> permittedOpreations;
+
+    private final List<String> permittedOperations;
 
     public CalculatorController() {
         calculatorRepo = new CalculatorRepo<>();
-        permittedOpreations = new ArrayList<>();
-        permittedOpreations.addAll(List.of("+", "-", "*", "/", "min", "max", "sqrt"));
+        permittedOperations = new ArrayList<>();
+        permittedOperations.addAll(
+                List.of("+", "-", "*", "/", "min", "max", "sqrt", "clear")
+        );
     }
 
     public boolean isAllowedOperation(String op) {
-        return permittedOpreations.contains(op.trim());
+        return permittedOperations.contains(op.trim());
     }
 
     public boolean hasPreviousResult() {

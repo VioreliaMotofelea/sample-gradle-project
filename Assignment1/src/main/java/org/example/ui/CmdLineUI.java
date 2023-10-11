@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 
 public class CmdLineUI {
     private static CmdLineUI INSTANCE = null;
+
     private final CalculatorController controller;
 
     private BufferedReader reader;
@@ -32,10 +33,12 @@ public class CmdLineUI {
         if (INSTANCE == null)
             INSTANCE = new CmdLineUI();
         return INSTANCE;
-    };
+    }
 
     private void displayOneStep() throws IOException {
-        System.out.println("Choose an operation (+, -, /, *, min, max, sqrt, clear): ");
+        System.out.println(
+                "Choose an operation (+, -, /, *, min, max, sqrt, clear): "
+        );
 
         String operation = readOperation();
         if (operation.equals("clear")) {
@@ -44,7 +47,8 @@ public class CmdLineUI {
             return;
         }
 
-        Float nr1 = null, nr2 = null;
+        Float nr1 = null;
+        Float nr2 = null;
 
         if (controller.hasPreviousResult()) {
             nr1 = controller.getPreviousResult();
@@ -81,7 +85,7 @@ public class CmdLineUI {
             case "sqrt":
                 return controller.performSqrtOperation(nr1);
             default:
-                throw new RuntimeException("Could not perform operation");
+                throw new ArithmeticException("Could not perform operation");
         }
     }
 
@@ -95,7 +99,7 @@ public class CmdLineUI {
         }
 
         if (!controller.isAllowedOperation(op))
-            throw new RuntimeException("Not a recognized operation");
+            throw new ArithmeticException("Not a recognized operation");
         return op;
     }
 
@@ -105,7 +109,7 @@ public class CmdLineUI {
         try {
             return Float.parseFloat(reader.readLine().trim());
         } catch (Exception e) {
-            throw new RuntimeException("Not a float!");
+            throw new ArithmeticException("Not a float!");
         }
     }
 }

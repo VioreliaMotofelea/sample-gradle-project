@@ -8,7 +8,7 @@ public class SqrtOperation extends UnaryOperation<Float> {
     @Override
     public Float compute() throws ArithmeticException {
         if (term < 0)
-            throw new ArithmeticException("Cannot perform sqrt on a number <0!");
+            throw new ArithmeticException("Cannot perform sqrt on a number <0");
         Double res = Math.sqrt(term);
         return res.floatValue();
     }
