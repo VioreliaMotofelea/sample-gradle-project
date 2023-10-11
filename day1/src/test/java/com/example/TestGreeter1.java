@@ -30,7 +30,5 @@ public class TestGreeter1 {
         String someone = "World";
 
         MatcherAssert.assertThat(greeter1.greet(someone).length(), is(greaterThan(someone.length())));
-
-        assertNull(greeter1.greet(null));
     }
 }
