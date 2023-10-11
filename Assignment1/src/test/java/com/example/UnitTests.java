@@ -5,8 +5,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class UnitTests {
 
@@ -70,5 +72,17 @@ public class UnitTests {
         assertThrows(ArithmeticException.class, () -> {
             calculatorController.performSqrtOperation(-1f);
         });
+    }
+
+    @Test
+    public void testMiscellaneous() {
+        assertTrue(calculatorController.isAllowedOperation("+"));
+        assertFalse(calculatorController.isAllowedOperation("+sdf"));
+
+        calculatorController.performMaxOperation(3f, 2f);
+        assertEquals(calculatorController.getPreviousResult(), 3f);
+        assertTrue(calculatorController.hasPreviousResult());
+        calculatorController.clearResult();
+        assertFalse(calculatorController.hasPreviousResult());
     }
 }
