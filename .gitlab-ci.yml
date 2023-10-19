@@ -32,3 +32,12 @@ test:
     paths:
       - build/reports/jacoco/testCodeCoverageReport/html/
 
+coverage_report:
+  stage: report
+  script:
+    - export CODACY_PROJECT_TOKEN=6a44db519b8d4bf7a49f6f89b93e1fda
+    - ./gradlew test uploadCoverage
+    - codacy-coverage-reporter
+  only:
+    - master
+
