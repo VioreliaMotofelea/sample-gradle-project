@@ -1,19 +1,13 @@
 package labs.lab1.model.operations.impl;
 
-import labs.lab1.model.operations.IOperation;
+public class Division extends AbstractOperation {
 
-public class Division implements IOperation {
-    private final Double x1, x2;
-
-    public Division(Double... operators) {
-        assert operators.length == 2;
-
-        this.x1 = operators[0];
-        this.x2 = operators[1];
+    public Division(double... operators) {
+        super(2, 2, operators);
     }
 
     @Override
     public Double calculate() {
-        return x1 / x2;
+        return operators.get(0) / operators.get(1);
     }
 }

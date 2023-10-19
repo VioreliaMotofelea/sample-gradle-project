@@ -3,7 +3,7 @@ package labs.lab1.model.operations;
 import labs.lab1.model.operations.impl.*;
 
 public class OperationFactory {
-    public static IOperation createOperation(String operation, Double... operators) {
+    public static IOperation createOperation(String operation, double... operators) {
         switch (operation) {
             case "+":
                 return new Addition(operators);
@@ -15,8 +15,14 @@ public class OperationFactory {
                 return new Division(operators);
             case "%":
                 return new Modulo(operators);
+            case "sqrt":
+                return new SquareRoot(operators);
+            case "min":
+                return new Minimum(operators);
+            case "max":
+                return new Maximum(operators);
             default:
-                return null;
+                throw new UnsupportedOperationException("Operation not supported!");
         }
     }
 }

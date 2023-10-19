@@ -1,19 +1,14 @@
 package labs.lab1.model.operations.impl;
 
-import labs.lab1.model.operations.IOperation;
+public class Multiplication extends AbstractOperation {
 
-public class Multiplication implements IOperation {
-    private final Double x1, x2;
-
-    public Multiplication(Double... operators) {
-        assert operators.length == 2;
-
-        this.x1 = operators[0];
-        this.x2 = operators[1];
+    public Multiplication(double... operators) {
+        super(1, operators);
     }
 
     @Override
     public Double calculate() {
-        return x1 * x2;
+        return operators.stream()
+                .reduce(1.0, (a, b) -> a * b);
     }
 }

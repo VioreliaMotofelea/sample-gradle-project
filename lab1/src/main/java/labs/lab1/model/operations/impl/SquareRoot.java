@@ -1,18 +1,13 @@
 package labs.lab1.model.operations.impl;
 
-import labs.lab1.model.operations.IOperation;
+public class SquareRoot extends AbstractOperation {
 
-public class SquareRoot implements IOperation {
-    private final Double x;
-
-    public SquareRoot(Double... operators) {
-        assert operators.length == 1;
-
-        this.x = operators[0];
+    public SquareRoot(double... operators) {
+        super(1, 1, operators);
     }
 
     @Override
     public Double calculate() {
-        return Math.sqrt(x);
+        return Math.sqrt(operators.get(0));
     }
 }
