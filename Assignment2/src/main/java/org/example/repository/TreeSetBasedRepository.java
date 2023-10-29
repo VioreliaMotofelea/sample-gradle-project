@@ -1,14 +1,14 @@
 package org.example.repository;
 
-import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
-public class HashSetBasedRepository<T> implements InMemoryRepository<T> {
+public class TreeSetBasedRepository<T extends Comparable<T>> implements InMemoryRepository<T> {
 
     private final Set<T> set;
 
-    public HashSetBasedRepository() {
-        this.set = new HashSet<T>();
+    public TreeSetBasedRepository() {
+        this.set = new TreeSet<T>();
     }
 
     @Override
