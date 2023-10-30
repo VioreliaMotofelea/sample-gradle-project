@@ -25,4 +25,9 @@ public class HashSetBasedRepository<T> implements InMemoryRepository<T> {
     public boolean contains(T item) {
         return set.contains(item);
     }
+
+    @Override
+    public void clear() {
+        set.clear();
+    }
 }

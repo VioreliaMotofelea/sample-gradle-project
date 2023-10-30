@@ -25,4 +25,9 @@ public class TreeSetBasedRepository<T extends Comparable<T>> implements InMemory
     public boolean contains(T item) {
         return set.contains(item);
     }
+
+    @Override
+    public void clear() {
+        set.clear();
+    }
 }

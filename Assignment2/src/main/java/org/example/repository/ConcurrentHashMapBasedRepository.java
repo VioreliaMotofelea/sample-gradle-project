@@ -25,4 +25,9 @@ public class ConcurrentHashMapBasedRepository<T> implements InMemoryRepository<T
     public boolean contains(T item) {
         return map.containsKey(item.hashCode());
     }
+
+    @Override
+    public void clear() {
+        map.clear();
+    }
 }
