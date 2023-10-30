@@ -2,11 +2,11 @@ package org.example.repository;
 
 import org.eclipse.collections.impl.list.mutable.FastList;
 
-public class FastListRepoBenchmark<T> implements InMemoryRepository<T>{
+public class FastListBasedRepo<T> implements InMemoryRepository<T>{
 
     private FastList<T> fastList;
 
-    public FastListRepoBenchmark() {
+    public FastListBasedRepo() {
         fastList = new FastList<>();
     }
 
