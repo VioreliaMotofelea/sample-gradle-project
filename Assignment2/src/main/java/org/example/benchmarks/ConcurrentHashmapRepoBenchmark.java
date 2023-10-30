@@ -35,6 +35,9 @@ public class ConcurrentHashmapRepoBenchmark {
         @Setup(Level.Iteration)
         public void setup() {
             repo.clear();
+            for (int i = 0; i < size; i++) {
+                repo.add(order);
+            }
         }
     }
 
