@@ -1,0 +1,4 @@
+package org.example.benchmarks.jmh_generated;
+public class TroveIntPrimitiveBenchmark_Helper_jmhType extends TroveIntPrimitiveBenchmark_Helper_jmhType_B3 {
+}
+
