@@ -5,27 +5,29 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class BigDecimalsOps {
-
-    private List<BigDecimal> bigDecimalList;
+public class BigDecimalsOps extends NumberOps<BigDecimal> {
 
     public BigDecimalsOps(List<BigDecimal> list) {
-        bigDecimalList = list;
+        super(list);
     }
 
-    public BigDecimal sum() {
-        return bigDecimalList.stream().reduce(BigDecimal.valueOf(0), BigDecimal::add);
+    @Override
+    protected BigDecimal zero() {
+        return BigDecimal.ZERO;
     }
 
-    public BigDecimal average() {
-        return sum().divide(BigDecimal.valueOf(bigDecimalList.size()));
+    @Override
+    protected BigDecimal add(BigDecimal a, BigDecimal b) {
+        return a.add(b);
     }
 
-    public List<BigDecimal> top10perc() {
-        int tenPerc = bigDecimalList.size() / 10;
-        return bigDecimalList.stream()
-                .sorted(Comparator.reverseOrder())
-                .limit(tenPerc)
-                .collect(Collectors.toList());
+    @Override
+    protected BigDecimal divide(BigDecimal a, int b) {
+        return a.divide(BigDecimal.valueOf(b));
+    }
+
+    @Override
+    protected Comparator<? super BigDecimal> comparator() {
+        return Comparator.reverseOrder();
     }
 }
