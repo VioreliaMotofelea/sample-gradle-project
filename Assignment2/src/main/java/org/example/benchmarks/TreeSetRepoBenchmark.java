@@ -1,6 +1,6 @@
 package org.example.benchmarks;
 
-import org.example.domain.Order;
+import org.example.repo.Order;
 import org.example.repository.InMemoryRepository;
 import org.example.repository.TreeSetBasedRepository;
 import org.openjdk.jmh.annotations.Benchmark;

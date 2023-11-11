@@ -1,6 +1,6 @@
 package org.example.repository;
 
-import org.example.domain.Operation;
+import org.example.repo.Operation;
 
 public class CalculatorRepo<T> {
     private T currentResult;

@@ -1,12 +1,12 @@
 package org.example.controller;
 
-import org.example.domain.AddOperation;
-import org.example.domain.DeleteOperation;
-import org.example.domain.DivideOperation;
-import org.example.domain.MaxOperation;
-import org.example.domain.MinOperation;
-import org.example.domain.MultiplyOperation;
-import org.example.domain.SqrtOperation;
+import org.example.repo.AddOperation;
+import org.example.repo.DeleteOperation;
+import org.example.repo.DivideOperation;
+import org.example.repo.MaxOperation;
+import org.example.repo.MinOperation;
+import org.example.repo.MultiplyOperation;
+import org.example.repo.SqrtOperation;
 import org.example.repository.CalculatorRepo;
 
 import java.util.ArrayList;
