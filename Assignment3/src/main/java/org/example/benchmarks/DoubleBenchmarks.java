@@ -38,9 +38,20 @@ public class DoubleBenchmarks {
         public void setup() {
             doubleList.clear();
 
-            for (int i = 0; i < size; i++) {
-                doubleList.add((double) i);
-            }
+            // Sorted: ascending
+//            for (int i = 0; i < size; i++) {
+//                doubleList.add((double) i);
+//            }
+
+            // Sorted: descending
+//             for (int i = size; i > 0; i--) {
+//                 doubleList.add((double) i);
+//             }
+
+            // Random
+             for (int i = 0; i < size; i++) {
+                 doubleList.add(Math.random() * size);
+             }
 
             doubleOps = new DoubleOps(doubleList);
             doubleList.clear();

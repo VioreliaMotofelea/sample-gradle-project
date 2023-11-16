@@ -40,9 +40,20 @@ public class DoublePrimitiveBenchmarks {
         public void setup() {
             doubleList.clear();
 
-            for (int i = 0; i < size; i++) {
-                doubleList.add(i);
-            }
+            // Sorted: ascending
+//            for (int i = 0; i < size; i++) {
+//                doubleList.add(i);
+//            }
+
+            // Sorted: descending
+//             for (int i = size; i > 0; i--) {
+//                 doubleList.add(i);
+//             }
+
+            // Random
+             for (int i = 0; i < size; i++) {
+                 doubleList.add(Math.random() * size);
+             }
 
             doubleOps = new DoublePrimitiveOps(doubleList);
             doubleList.clear();
