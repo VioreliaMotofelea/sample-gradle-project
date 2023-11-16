@@ -1,0 +1,35 @@
+Sorted: ascending
+Benchmark                               (size)  Mode  Cnt      Score       Error  Units
+
+DoubleBenchmarks.average                   100  avgt   10     66.120 ±     3.075  ns/op
+DoublePrimitiveBenchmarks.average          100  avgt   10     62.127 ±     0.642  ns/op
+DoubleBenchmarks.sum                       100  avgt   10     57.676 ±     1.970  ns/op
+DoublePrimitiveBenchmarks.sum              100  avgt   10     57.690 ±     1.836  ns/op
+DoubleBenchmarks.top10perc                 100  avgt   10     58.935 ±     2.191  ns/op
+DoublePrimitiveBenchmarks.top10perc        100  avgt   10     65.512 ±     0.275  ns/op
+
+DoubleBenchmarks.average             100000000  avgt   10  63467.500 ±  9193.528  ns/op
+DoublePrimitiveBenchmarks.average    100000000  avgt   10  63915.986 ±  4955.457  ns/op
+DoubleBenchmarks.sum                 100000000  avgt   10  60488.500 ± 10458.958  ns/op
+DoublePrimitiveBenchmarks.sum        100000000  avgt   10  63301.564 ± 10248.504  ns/op
+DoubleBenchmarks.top10perc           100000000  avgt   10  87934.700 ±  9307.670  ns/op
+DoublePrimitiveBenchmarks.top10perc  100000000  avgt   10  93980.957 ±  8279.041  ns/op
+
+
+Sorted: descending
+Benchmark                               (size)  Mode  Cnt      Score       Error  Units
+DoubleBenchmarks.average                   100  avgt   10     64.106 ±     2.075  ns/op
+DoubleBenchmarks.average             100000000  avgt   10  58334.500 ±  6205.568  ns/op
+DoubleBenchmarks.sum                       100  avgt   10     58.411 ±     1.330  ns/op
+DoubleBenchmarks.sum                 100000000  avgt   10  55726.600 ±  3821.719  ns/op
+DoubleBenchmarks.top10perc                 100  avgt   10     60.689 ±     3.093  ns/op
+DoubleBenchmarks.top10perc           100000000  avgt   10  86078.400 ±  4621.573  ns/op
+DoublePrimitiveBenchmarks.average          100  avgt   10     61.873 ±     0.280  ns/op
+DoublePrimitiveBenchmarks.average    100000000  avgt   10  57840.570 ±  6270.377  ns/op
+DoublePrimitiveBenchmarks.sum              100  avgt   10     56.466 ±     0.439  ns/op
+DoublePrimitiveBenchmarks.sum        100000000  avgt   10  54139.900 ±  5644.417  ns/op
+DoublePrimitiveBenchmarks.top10perc        100  avgt   10     71.083 ±     0.298  ns/op
+DoublePrimitiveBenchmarks.top10perc  100000000  avgt   10  93919.500 ± 11688.359  ns/op
+
+
+Random
