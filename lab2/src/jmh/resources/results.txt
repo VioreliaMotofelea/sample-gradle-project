@@ -1,0 +1,34 @@
+Benchmark                                  (repositoryClassName)  Mode  Cnt      Score      Error  Units
+RepositoryBenchmark.add                      ArrayListRepository  avgt    4     18.026 ±   21.721  ns/op
+RepositoryBenchmark.add                        HashSetRepository  avgt    4     75.307 ±  368.125  ns/op
+RepositoryBenchmark.add                        TreeSetRepository  avgt    4    126.166 ±   31.371  ns/op
+RepositoryBenchmark.add              ConcurrentHashMapRepository  avgt    4    403.138 ± 2683.419  ns/op
+RepositoryBenchmark.add       ConcurrentHashMapEclipseRepository  avgt    4    106.142 ±  530.554  ns/op
+RepositoryBenchmark.add                       FastListRepository  avgt    4     18.442 ±    2.269  ns/op
+RepositoryBenchmark.add                     UnifiedMapRepository  avgt    4     71.673 ±  337.327  ns/op
+RepositoryBenchmark.add                     UnifiedSetRepository  avgt    4     34.212 ±  158.358  ns/op
+RepositoryBenchmark.add                       FastutilRepository  avgt    4     71.899 ±  318.035  ns/op
+RepositoryBenchmark.add                       KolobokeRepository  avgt    4     92.441 ±  490.763  ns/op
+RepositoryBenchmark.add                        Trove4jRepository  avgt    2     19.349             ns/op
+RepositoryBenchmark.contains                 ArrayListRepository  avgt    4   7680.724 ± 8122.662  ns/op
+RepositoryBenchmark.contains                   HashSetRepository  avgt    4      4.139 ±    0.580  ns/op
+RepositoryBenchmark.contains                   TreeSetRepository  avgt    4     62.509 ±    4.530  ns/op
+RepositoryBenchmark.contains         ConcurrentHashMapRepository  avgt    4      3.961 ±    0.362  ns/op
+RepositoryBenchmark.contains  ConcurrentHashMapEclipseRepository  avgt    4      5.053 ±    0.607  ns/op
+RepositoryBenchmark.contains                  FastListRepository  avgt    4  35577.899 ± 6765.608  ns/op
+RepositoryBenchmark.contains                UnifiedMapRepository  avgt    4      5.004 ±    0.165  ns/op
+RepositoryBenchmark.contains                UnifiedSetRepository  avgt    4      5.007 ±    0.373  ns/op
+RepositoryBenchmark.contains                  FastutilRepository  avgt    4      4.179 ±    0.509  ns/op
+RepositoryBenchmark.contains                  KolobokeRepository  avgt    4      4.360 ±    0.987  ns/op
+RepositoryBenchmark.contains                   Trove4jRepository  avgt    4      3.857 ±    0.317  ns/op
+RepositoryBenchmark.remove                   ArrayListRepository  avgt    4      3.603 ±    0.464  ns/op
+RepositoryBenchmark.remove                     HashSetRepository  avgt    4      4.282 ±    0.452  ns/op
+RepositoryBenchmark.remove                     TreeSetRepository  avgt    4      4.249 ±    0.647  ns/op
+RepositoryBenchmark.remove           ConcurrentHashMapRepository  avgt    4      5.832 ±    0.659  ns/op
+RepositoryBenchmark.remove    ConcurrentHashMapEclipseRepository  avgt    4      5.066 ±    0.534  ns/op
+RepositoryBenchmark.remove                    FastListRepository  avgt    4      3.473 ±    0.179  ns/op
+RepositoryBenchmark.remove                  UnifiedMapRepository  avgt    4      5.318 ±    0.560  ns/op
+RepositoryBenchmark.remove                  UnifiedSetRepository  avgt    4      4.682 ±    0.463  ns/op
+RepositoryBenchmark.remove                    FastutilRepository  avgt    4      4.334 ±    0.241  ns/op
+RepositoryBenchmark.remove                    KolobokeRepository  avgt    4      4.601 ±    0.259  ns/op
+RepositoryBenchmark.remove                     Trove4jRepository  avgt    4      4.662 ±    0.098  ns/op
