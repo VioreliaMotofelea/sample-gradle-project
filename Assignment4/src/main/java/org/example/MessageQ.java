@@ -24,11 +24,10 @@ public class MessageQ {
     }
 
     public synchronized void addMessage(Message message) {
-//        System.out.println("Adding message: " + message.getMessage());
-        messages.add(message);
+        if (!message.getMessage().contains("%exit"))
+            messages.add(message);
 
         if (printWriter != null) {
-//            System.out.println("Sending message: " + message.getMessage());
             printWriter.println(message.getMessage());
         }
     }

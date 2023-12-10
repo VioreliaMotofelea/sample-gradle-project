@@ -1,9 +1,15 @@
 package org.example;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
 import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -21,7 +27,12 @@ public class ConnectionManager {
     private Map<PeerAddressInfo, Peer> peersMap;
     private Map<Peer, MessageQ> connections;
 
-    private PrintWriter messagingOut;
+    private PrintWriter notifierOut;
+    private BufferedReader notifierIn;
+    private PipedInputStream pipedInputStream;
+    private PipedOutputStream pipedOutputStream;
+
+    private PeerAddressInfo currentPeer;
 
     private ExecutorService serverExecutorService;
 
@@ -29,6 +40,18 @@ public class ConnectionManager {
         peersMap = new HashMap<>();
         connections = new HashMap<>();
         serverExecutorService = Executors.newFixedThreadPool(3);
+        currentPeer = null;
+
+        pipedInputStream = new PipedInputStream();
+        pipedOutputStream = new PipedOutputStream();
+
+        try {
+            pipedInputStream.connect(pipedOutputStream);
+            this.notifierIn = new BufferedReader(new InputStreamReader(pipedInputStream));
+            this.notifierOut = new PrintWriter(new OutputStreamWriter(pipedOutputStream), true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -83,17 +106,21 @@ public class ConnectionManager {
             );
             this.addConnection(peer);
 
-            Thread readThread = new Thread(() -> readMessagesForLifetime(peer));
+            Thread readThread = new Thread(() -> readMessages(peer));
+            Thread writeThread = new Thread(() -> writeMessages(peer));
 
             readThread.start();
+            writeThread.start();
+
             readThread.join();
+            writeThread.join();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
 
-    private void readMessagesForLifetime(Peer peer) {
+    private void readMessages(Peer peer) {
         BufferedReader in = new BufferedReader(new InputStreamReader(peer.getInputStream()));
         try {
             while (true) {
@@ -102,10 +129,6 @@ public class ConnectionManager {
                     break;
                 }
 
-//                if (message.equals("%exit")) {
-//                    this.addMessage(peer, new Message(MessageType.MESSAGE, "Peer disconnected!"));
-//                    continue;
-//                }
                 this.addMessage(peer, new Message(MessageType.MESSAGE, "Received: " + message));
             }
         } catch (Exception e) {
@@ -113,23 +136,47 @@ public class ConnectionManager {
         } finally {
             try {
                 in.close();
-                peer.getInputStream().close();
-                peer.getOutputStream().close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
+    public void writeMessages(Peer peer) {
+        PrintWriter out = new PrintWriter(new OutputStreamWriter(peer.getOutputStream()), true);
+
+        try {
+            while (peer.getInputStream() != null) {
+                String message = notifierIn.readLine();
+                if (message == null)
+                    continue;
+
+                out.println(message);
+                if (message.contains("%disconnect"))
+                    break;
+
+                addMessage(peer, new Message(MessageType.MESSAGE, "Sent: " + message));
+            }
+        } catch (Exception e) {
+            if (e.getMessage().equals("Socket closed"))
+                System.out.println("Disconnected from peer chatroom!");
+            else
+                e.printStackTrace();
+        } finally {
+            out.close();
+            System.out.println("Write closed");
+        }
+    }
+
 
     public void connectToChatroom(String serverAddr, int serverPort) {
-        try {
-//            PeerAddressInfo info = new PeerAddressInfo(
-//                    new InetSocketAddress(serverAddr, serverPort).getAddress(),
-//                    serverPort
-//            );
-//            Peer peer = peersMap.get(info);
+        PeerAddressInfo peerAddressInfo = new PeerAddressInfo(
+                new InetSocketAddress(serverAddr, serverPort).getAddress(),
+                serverPort
+        );
+        currentPeer = peerAddressInfo;
 
+        try {
             for (Peer peer : connections.keySet()) {
                 if (peer.getPort() == serverPort) {
 
@@ -140,16 +187,16 @@ public class ConnectionManager {
                     messages.sendOldMessagesThroughPrintWriter();
 
                     BufferedReader in = messages.getBufferedReader();
-                    messagingOut = new PrintWriter(peer.getOutputStream(), true);
-
                     Thread read = new Thread(() -> readMessagesChatroom(in));
-                    Thread write = new Thread(() -> writeMessagesChatroom(peer));
+//                    Thread write = new Thread(() -> writeMessagesChatroom());
 
-                    write.start();
+//                    write.start();
                     read.start();
 
+                    writeMessagesChatroom();
+
                     read.join();
-                    write.join();
+//                    write.join();
 
                     messages.closePipe();
 
@@ -162,19 +209,20 @@ public class ConnectionManager {
         }
     }
 
-
-    public void writeMessagesChatroom(Peer peer) {
+    public void writeMessagesChatroom() {
         Scanner scanner = new Scanner(System.in);
 
         try {
+//            pipedOutputStream = new PipedOutputStream();
+//            pipedOutputStream.connect(pipedInputStream);
+//            this.notifierOut = new PrintWriter(new OutputStreamWriter(pipedOutputStream), false);
+
             while (true) {
                 String message = scanner.nextLine();
-                messagingOut.println(message);
+                notifierOut.println(message);
 
                 if (message.contains("%exit"))
                     break;
-
-                addMessage(peer, new Message(MessageType.MESSAGE, "Sent: " + message));
             }
         } catch (Exception e) {
             if (e.getMessage().equals("Socket closed"))
@@ -182,18 +230,20 @@ public class ConnectionManager {
             else
                 e.printStackTrace();
         } finally {
-            messagingOut = null;
+//            notifierOut.close();
+            scanner.close();
+            System.out.println("Write closed");
         }
     }
 
     public void readMessagesChatroom(BufferedReader in) {
         try {
-            while (messagingOut != null) {
+            while (true) {
                 String message = in.readLine();
-                if (message == null) {
+                if (message == null || message.contains("%exit")) {
                     break;
                 }
-                if (message.startsWith("Sent: ") || message.contains("%exit"))
+                if (message.startsWith("Sent: "))
                     continue;
 
                 System.out.println(message);
@@ -205,11 +255,10 @@ public class ConnectionManager {
                 System.out.println("Disconnected from peer chatroom bc f broken pipe!");
             else
                 e.printStackTrace();
-
-        } finally {
-            in = null;
         }
     }
+
+
 
     public synchronized void addConnection(Peer peer) {
         connections.put(peer, new MessageQ());
