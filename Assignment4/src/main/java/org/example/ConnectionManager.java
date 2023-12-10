@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -130,12 +129,18 @@ public class ConnectionManager {
             for (Peer peer : connections.keySet()) {
                 if (peer.getPort() == serverPort) {
                     MessageQ messages = this.getMessages(peer);
-                    for (Message message : messages.getMessages())
-                        System.out.println(message.getMessage());
+                    messages.setMqForSendingMessages();
+                    messages.sendOldMessagesThroughPrintWriter();
 
-                    Thread t = new Thread(() -> writeMessages(peer));
-                    t.start();
-                    t.join();
+                    BufferedReader in = messages.getBufferedReader();
+                    Thread read = new Thread(() -> readMessagesChatroom(in));
+                    Thread write = new Thread(() -> writeMessagesChatroom(peer));
+
+                    read.start();
+                    write.start();
+
+                    write.join();
+                    read.join();
 
                     return;
                 }
@@ -147,7 +152,7 @@ public class ConnectionManager {
     }
 
 
-    public void writeMessages(Peer peer) {
+    public void writeMessagesChatroom(Peer peer) {
         messagingOut = new PrintWriter(peer.getOutputStream(), true);
         Scanner scanner = new Scanner(System.in);
 
@@ -168,14 +173,32 @@ public class ConnectionManager {
         } finally {
             try {
                 messagingOut.close();
-//                peer.getOutputStream().close();
+                connections.get(peer).closePipe();
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
-
+    public void readMessagesChatroom(BufferedReader in) {
+        try {
+            while (in.ready()) {
+                String message = in.readLine();
+                if (message == null) {
+                    break;
+                }
+                System.out.println(message);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                in.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     public synchronized void addConnection(Peer peer) {
         connections.put(peer, new MessageQ());
