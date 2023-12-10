@@ -24,10 +24,11 @@ public class MessageQ {
     }
 
     public synchronized void addMessage(Message message) {
+//        System.out.println("Adding message: " + message.getMessage());
         messages.add(message);
 
         if (printWriter != null) {
-            System.out.println("Sending message: " + message.getMessage());
+//            System.out.println("Sending message: " + message.getMessage());
             printWriter.println(message.getMessage());
         }
     }
@@ -50,6 +51,14 @@ public class MessageQ {
     }
 
     public synchronized void closePipe() {
+        if (this.bufferedReader != null) {
+            try {
+                this.bufferedReader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            this.bufferedReader = null;
+        }
         if (this.printWriter != null) {
             this.printWriter.close();
             this.printWriter = null;
