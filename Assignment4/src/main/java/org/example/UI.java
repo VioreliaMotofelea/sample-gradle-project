@@ -13,11 +13,8 @@ public class UI {
         System.out.println("Enter the port number you want to connect to: ");
         int port = scanner.nextInt();
 
-//        System.out.println("Enter your username: ");
-//        String username = scanner.next();
-
         try {
-            new Server(port).start();
+            ConnectionManager.getInstance().startServer(port);
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
             return;
@@ -43,7 +40,7 @@ public class UI {
                     int peerPort = scanner.nextInt();
 
                     try {
-                        new Client(ip, peerPort).start();
+                        ConnectionManager.getInstance().connectToServerAsClient(ip, peerPort);
                         System.out.println("Connected to peer!");
                     } catch (Exception e) {
                         System.out.println("Error: " + e.getMessage());
@@ -57,8 +54,12 @@ public class UI {
                     }
                     break;
                 case 3:
-                    System.out.println("Enter the name of the peer you want to chat with: ");
-                    String peerUsername = scanner.next();
+                    System.out.println("Enter the peer you want to chat with: ");
+                    String peerInfo = scanner.next();
+                    ConnectionManager.getInstance().connectToChatroom(
+                            peerInfo.split(":")[0],
+                            Integer.parseInt(peerInfo.split(":")[1])
+                    );
 
                     break;
                 case 4:

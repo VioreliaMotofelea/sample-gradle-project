@@ -4,18 +4,15 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetAddress;
 
-public class Peer {
+public class PeerAddressInfo {
 
     private InetAddress address;
     private int port;
-    private InputStream inputStream;
-    private OutputStream outputStream;
 
-    public Peer(InetAddress address, int port, InputStream inputStream, OutputStream outputStream) {
+
+    public PeerAddressInfo(InetAddress address, int port) {
         this.address = address;
         this.port = port;
-        this.inputStream = inputStream;
-        this.outputStream = outputStream;
     }
 
     public InetAddress getAddress() {
@@ -24,14 +21,6 @@ public class Peer {
 
     public int getPort() {
         return port;
-    }
-
-    public InputStream getInputStream() {
-        return inputStream;
-    }
-
-    public OutputStream getOutputStream() {
-        return outputStream;
     }
 
     @Override

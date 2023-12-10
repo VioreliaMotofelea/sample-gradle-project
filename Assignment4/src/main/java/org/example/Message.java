@@ -8,4 +8,12 @@ public class Message {
         this.type = type;
         this.message = message;
     }
+
+    public MessageType getType() {
+        return type;
+    }
+
+    public String getMessage() {
+        return message;
+    }
 }
