@@ -151,27 +151,23 @@ public class ConnectionManager {
                 if (message == null)
                     continue;
 
-                out.println(message);
-
                 if (message.contains("%disconnect"))
                     break;
 
-                addMessage(peer, new Message(MessageType.MESSAGE, "Sent: " + message));
 
-                if (!message.contains("%exit")) {
-                    System.out.println("Sent: " + message);
-                } else {
+                if (message.contains("%exit")) {
                     System.out.println("Disconnected from peer chatroom!");
                     synchronized (peer) {
                         peer.wait();
                     }
+                } else {
+                    out.println(message);
                 }
+
+                addMessage(peer, new Message(MessageType.MESSAGE, "Sent: " + message));
             }
         } catch (Exception e) {
-            if (e.getMessage().equals("Socket closed"))
-                System.out.println("Disconnected from peer chatroom!");
-            else
-                e.printStackTrace();
+            System.out.println("Big fat error: " + e.getMessage());
         } finally {
             out.close();
             System.out.println("Write closed");
@@ -207,6 +203,8 @@ public class ConnectionManager {
                     read.join();
                     messages.closePipe();
 
+                    System.out.println("S a inchis teava");
+
                     return;
                 }
             }
@@ -215,25 +213,24 @@ public class ConnectionManager {
             e.printStackTrace();
         }
     }
+
     public void readMessagesChatroom(BufferedReader in) {
         try {
             while (true) {
                 String message = in.readLine();
                 if (message == null || message.equals("Sent: %exit")) {
+                    synchronized (this) {
+                        notify();  // Notify the main thread to continue
+                    }
                     break;
                 }
-
                 System.out.println(message);
             }
         } catch (Exception e) {
-            if (e.getMessage().equals("Stream closed"))
-                System.out.println("Disconnected from peer chatroom!");
-            else if (e.getMessage().equals("Pipe broken"))
-                System.out.println("Disconnected from peer chatroom bc f broken pipe!");
-            else
-                e.printStackTrace();
+            System.out.println("Big fat error: " + e.getMessage());
         }
     }
+
 
 
 
