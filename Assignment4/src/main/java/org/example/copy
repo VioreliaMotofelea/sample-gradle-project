@@ -29,8 +29,12 @@ public class ConnectionManager {
     private static ConnectionManager instance = null;
 
     private Map<PeerAddressInfo, Peer> peersMap;
-    private Map<Peer, MessageQ> connections;
+    private Map<Pair<Peer, Lock>, MessageQ> connections;
 
+    private PrintWriter notifierOut;
+    private BufferedReader notifierIn;
+    private PipedInputStream pipedInputStream;
+    private PipedOutputStream pipedOutputStream;
 
     private PeerAddressInfo currentPeer;
 
@@ -41,6 +45,17 @@ public class ConnectionManager {
         connections = new HashMap<>();
         serverExecutorService = Executors.newFixedThreadPool(3);
         currentPeer = null;
+
+        pipedInputStream = new PipedInputStream();
+        pipedOutputStream = new PipedOutputStream();
+
+        try {
+            pipedInputStream.connect(pipedOutputStream);
+            this.notifierIn = new BufferedReader(new InputStreamReader(pipedInputStream));
+            this.notifierOut = new PrintWriter(new OutputStreamWriter(pipedOutputStream), true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -133,37 +148,46 @@ public class ConnectionManager {
 
     public void writeMessages(Peer peer) {
         PrintWriter out = new PrintWriter(new OutputStreamWriter(peer.getOutputStream()), true);
-
-        synchronized (peer) {
-            try {
-                peer.wait();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
         Scanner scanner = new Scanner(System.in);
+
+//        Lock lock = null;
+//        for (Pair<Peer, Lock> pair : connections.keySet()) {
+//            Peer peer1 = pair.getFirst();
+//            if (peer1.getPort() == peer.getPort()) {
+//                lock = pair.getSecond();
+////                lock.lock();  // Move the lock inside the loop
+//                break;
+//            }
+//        }
+//
+//        if (lock == null) {
+//            return;
+//        }
 
         try {
             while (peer.getInputStream() != null) {
-
+//                lock.lock();
                 String message = scanner.nextLine();
                 if (message == null)
                     continue;
 
-                out.println(message);
+                synchronized (currentPeer) {
+                    if (currentPeer != null) {
+                        if (currentPeer.getPort() == peer.getPort()) {
+                            out.println(message);
+                        }
+                    }
 
-                if (message.contains("%disconnect"))
-                    break;
+                    if (message.contains("%disconnect"))
+                        break;
 
-                addMessage(peer, new Message(MessageType.MESSAGE, "Sent: " + message));
+                    addMessage(peer, new Message(MessageType.MESSAGE, "Sent: " + message));
 
-                if (!message.contains("%exit")) {
-                    System.out.println("Sent: " + message);
-                } else {
-                    System.out.println("Disconnected from peer chatroom!");
-                    synchronized (peer) {
-                        peer.wait();
+                    if (!message.contains("%exit")) {
+                        synchronized (currentPeer) {
+                            currentPeer = null;
+                        }
+//                    lock.unlock();
                     }
                 }
             }
@@ -173,6 +197,7 @@ public class ConnectionManager {
             else
                 e.printStackTrace();
         } finally {
+//            lock.unlock();  // Release the lock in the finally block
             out.close();
             System.out.println("Write closed");
         }
@@ -187,7 +212,9 @@ public class ConnectionManager {
         currentPeer = peerAddressInfo;
 
         try {
-            for (Peer peer : connections.keySet()) {
+            for (Pair<Peer, Lock> pair : connections.keySet()) {
+                Peer peer = pair.getFirst();
+
                 if (peer.getPort() == serverPort) {
 
                     System.out.println("Connected to peer chatroom!");
@@ -196,16 +223,15 @@ public class ConnectionManager {
                     messages.setMqForSendingMessages();
                     messages.sendOldMessagesThroughPrintWriter();
 
+//                    pair.getSecond().unlock();  // Unlock before reading messages
+
                     BufferedReader in = messages.getBufferedReader();
                     Thread read = new Thread(() -> readMessagesChatroom(in));
                     read.start();
-
-                    synchronized (peer) {
-                        peer.notify();
-                    }
-
                     read.join();
                     messages.closePipe();
+
+//                    pair.getSecond().lock();  // Lock again after reading messages
 
                     return;
                 }
@@ -219,9 +245,11 @@ public class ConnectionManager {
         try {
             while (true) {
                 String message = in.readLine();
-                if (message == null || message.equals("Sent: %exit")) {
+                if (message == null || message.contains("%exit")) {
                     break;
                 }
+                if (message.startsWith("Sent: "))
+                    continue;
 
                 System.out.println(message);
             }
@@ -238,25 +266,41 @@ public class ConnectionManager {
 
 
     public synchronized void addConnection(Peer peer) {
-        connections.put(peer, new MessageQ());
+        connections.put(new Pair<>(peer, new ReentrantLock()), new MessageQ());
         PeerAddressInfo peerAddressInfo = new PeerAddressInfo(peer.getAddress(), peer.getPort());
         peersMap.put(peerAddressInfo, peer);
     }
 
     public List<String> getConnectedPeersNames() {
         List<String> connectedPeersNames = new ArrayList<>();
-        for (Peer peer : connections.keySet()) {
+        for (Pair<Peer, Lock> pair : connections.keySet()) {
+            Peer peer = pair.getFirst();
             connectedPeersNames.add(peer.getPort() + " " + peer.getAddress().getHostAddress());
         }
         return connectedPeersNames;
     }
 
     public synchronized void addMessage(Peer peer, Message message) {
-        connections.get(peer).addMessage(message);
+        for (Pair<Peer, Lock> pair : connections.keySet()) {
+            Peer peer1 = pair.getFirst();
+            if (peer1.getPort() == peer.getPort()) {
+                MessageQ messages = connections.get(pair);
+                messages.addMessage(message);
+                break;
+            }
+        }
     }
 
     public synchronized MessageQ getMessages(Peer peer) {
-        return connections.get(peer);
+        for (Pair<Peer, Lock> pair : connections.keySet()) {
+            Peer peer1 = pair.getFirst();
+            if (peer1.getPort() == peer.getPort()) {
+                MessageQ messages = connections.get(pair);
+                return messages;
+            }
+        }
+
+        return null;
     }
 
 
