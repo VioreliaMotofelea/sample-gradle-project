@@ -1,5 +1,7 @@
 package org.example;
 
+import org.apache.commons.math3.util.Pair;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -19,13 +21,15 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class ConnectionManager {
 
     private static ConnectionManager instance = null;
 
     private Map<PeerAddressInfo, Peer> peersMap;
-    private Map<Peer, MessageQ> connections;
+    private Map<Pair<Peer, Lock>, MessageQ> connections;
 
     private PrintWriter notifierOut;
     private BufferedReader notifierIn;
@@ -144,10 +148,26 @@ public class ConnectionManager {
 
     public void writeMessages(Peer peer) {
         PrintWriter out = new PrintWriter(new OutputStreamWriter(peer.getOutputStream()), true);
+        Scanner scanner = new Scanner(System.in);
+
+        Lock lock = null;
+        for (Pair<Peer, Lock> pair : connections.keySet()) {
+            Peer peer1 = pair.getFirst();
+            if (peer1.getPort() == peer.getPort()) {
+                lock = pair.getSecond();
+                break;
+            }
+        }
+
+        if (lock == null)
+            return;
+
+        lock.lock();
 
         try {
             while (peer.getInputStream() != null) {
-                String message = notifierIn.readLine();
+                lock.lock();
+                String message = scanner.nextLine();
                 if (message == null)
                     continue;
 
@@ -156,6 +176,9 @@ public class ConnectionManager {
                     break;
 
                 addMessage(peer, new Message(MessageType.MESSAGE, "Sent: " + message));
+
+                if (!message.contains("%exit"))
+                    lock.unlock();
             }
         } catch (Exception e) {
             if (e.getMessage().equals("Socket closed"))
@@ -164,6 +187,7 @@ public class ConnectionManager {
                 e.printStackTrace();
         } finally {
             out.close();
+            lock.unlock();
             System.out.println("Write closed");
         }
     }
@@ -177,7 +201,9 @@ public class ConnectionManager {
         currentPeer = peerAddressInfo;
 
         try {
-            for (Peer peer : connections.keySet()) {
+            for (Pair<Peer, Lock> pair : connections.keySet()) {
+                Peer peer = pair.getFirst();
+
                 if (peer.getPort() == serverPort) {
 
                     System.out.println("Connected to peer chatroom!");
@@ -186,19 +212,15 @@ public class ConnectionManager {
                     messages.setMqForSendingMessages();
                     messages.sendOldMessagesThroughPrintWriter();
 
+                    pair.getSecond().unlock();
+
                     BufferedReader in = messages.getBufferedReader();
                     Thread read = new Thread(() -> readMessagesChatroom(in));
-//                    Thread write = new Thread(() -> writeMessagesChatroom());
-
-//                    write.start();
                     read.start();
-
-                    writeMessagesChatroom();
-
                     read.join();
-//                    write.join();
-
                     messages.closePipe();
+
+                    pair.getSecond().lock();
 
                     return;
                 }
@@ -206,33 +228,6 @@ public class ConnectionManager {
 
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-
-    public void writeMessagesChatroom() {
-        Scanner scanner = new Scanner(System.in);
-
-        try {
-//            pipedOutputStream = new PipedOutputStream();
-//            pipedOutputStream.connect(pipedInputStream);
-//            this.notifierOut = new PrintWriter(new OutputStreamWriter(pipedOutputStream), false);
-
-            while (true) {
-                String message = scanner.nextLine();
-                notifierOut.println(message);
-
-                if (message.contains("%exit"))
-                    break;
-            }
-        } catch (Exception e) {
-            if (e.getMessage().equals("Socket closed"))
-                System.out.println("Disconnected from peer chatroom!");
-            else
-                e.printStackTrace();
-        } finally {
-//            notifierOut.close();
-            scanner.close();
-            System.out.println("Write closed");
         }
     }
 
@@ -261,24 +256,41 @@ public class ConnectionManager {
 
 
     public synchronized void addConnection(Peer peer) {
-        connections.put(peer, new MessageQ());
+        connections.put(new Pair<>(peer, new ReentrantLock()), new MessageQ());
         PeerAddressInfo peerAddressInfo = new PeerAddressInfo(peer.getAddress(), peer.getPort());
         peersMap.put(peerAddressInfo, peer);
     }
 
     public List<String> getConnectedPeersNames() {
         List<String> connectedPeersNames = new ArrayList<>();
-        for (Peer peer : connections.keySet())
+        for (Pair<Peer, Lock> pair : connections.keySet()) {
+            Peer peer = pair.getFirst();
             connectedPeersNames.add(peer.getPort() + " " + peer.getAddress().getHostAddress());
+        }
         return connectedPeersNames;
     }
 
     public synchronized void addMessage(Peer peer, Message message) {
-        connections.get(peer).addMessage(message);
+        for (Pair<Peer, Lock> pair : connections.keySet()) {
+            Peer peer1 = pair.getFirst();
+            if (peer1.getPort() == peer.getPort()) {
+                MessageQ messages = connections.get(pair);
+                messages.addMessage(message);
+                break;
+            }
+        }
     }
 
     public synchronized MessageQ getMessages(Peer peer) {
-        return connections.get(peer);
+        for (Pair<Peer, Lock> pair : connections.keySet()) {
+            Peer peer1 = pair.getFirst();
+            if (peer1.getPort() == peer.getPort()) {
+                MessageQ messages = connections.get(pair);
+                return messages;
+            }
+        }
+
+        return null;
     }
 
 
