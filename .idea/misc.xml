@@ -9,7 +9,14 @@
       <list>
         <option value="$PROJECT_DIR$/Assignment2/pom.xml" />
         <option value="$PROJECT_DIR$/Assignment3/pom.xml" />
+        <option value="$PROJECT_DIR$/Assignment4_client/pom.xml" />
+        <option value="$PROJECT_DIR$/Assignment4_server/pom.xml" />
       </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/Assignment4_server/pom.xml" />
+      </set>
     </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="jbr-17" project-jdk-type="JavaSDK">
