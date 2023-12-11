@@ -25,13 +25,14 @@ public class UI {
             System.out.println("1. Connect to a peer");
             System.out.println("2. See peers");
             System.out.println("3. Go to peer chatroom");
-            System.out.println("4. Disconnect from a peer");
 
             int option = scanner.nextInt();
 
             switch (option) {
                 case 0:
+                    ConnectionManager.getInstance().disconnectFromEveryone();
                     System.out.println("Goodbye!");
+
                     return;
                 case 1:
                     System.out.println("Enter the IP address of the peer you want to connect to: ");
@@ -60,11 +61,6 @@ public class UI {
                             peerInfo.split(":")[0],
                             Integer.parseInt(peerInfo.split(":")[1])
                     );
-
-                    break;
-                case 4:
-                    System.out.println("Enter the name of the peer you want to disconnect from: ");
-                    String peerName = scanner.next();
 
                     break;
                 default:

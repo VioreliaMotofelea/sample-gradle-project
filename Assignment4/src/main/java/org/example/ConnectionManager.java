@@ -29,10 +29,7 @@ public class ConnectionManager {
     private static ConnectionManager instance = null;
 
     private Map<PeerAddressInfo, Peer> peersMap;
-    private Map<Peer, MessageQ> connections;
-
-
-    private PeerAddressInfo currentPeer;
+    private final Map<Peer, MessageQ> connections;
 
     private ExecutorService serverExecutorService;
 
@@ -40,7 +37,6 @@ public class ConnectionManager {
         peersMap = new HashMap<>();
         connections = new HashMap<>();
         serverExecutorService = Executors.newFixedThreadPool(3);
-        currentPeer = null;
     }
 
 
@@ -103,6 +99,9 @@ public class ConnectionManager {
 
             readThread.join();
             writeThread.join();
+
+            this.removeConnection(peer);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -114,7 +113,7 @@ public class ConnectionManager {
         try {
             while (true) {
                 String message = in.readLine();
-                if (message == null) {
+                if (message == null || message.contains("%disconnect")) {
                     break;
                 }
 
@@ -176,11 +175,10 @@ public class ConnectionManager {
 
 
     public void connectToChatroom(String serverAddr, int serverPort) {
-        PeerAddressInfo peerAddressInfo = new PeerAddressInfo(
-                new InetSocketAddress(serverAddr, serverPort).getAddress(),
-                serverPort
-        );
-        currentPeer = peerAddressInfo;
+//        PeerAddressInfo peerAddressInfo = new PeerAddressInfo(
+//                new InetSocketAddress(serverAddr, serverPort).getAddress(),
+//                serverPort
+//        );
 
         try {
             for (Peer peer : connections.keySet()) {
@@ -202,8 +200,6 @@ public class ConnectionManager {
 
                     read.join();
                     messages.closePipe();
-
-                    System.out.println("S a inchis teava");
 
                     return;
                 }
@@ -232,12 +228,26 @@ public class ConnectionManager {
     }
 
 
+    public synchronized void disconnectFromEveryone() {
+        synchronized (connections) {
+            for (Peer peer : connections.keySet()) {
+                PrintWriter out = new PrintWriter(new OutputStreamWriter(peer.getOutputStream()), true);
+                out.println("%disconnect");
+            }
+        }
+    }
 
 
     public synchronized void addConnection(Peer peer) {
         connections.put(peer, new MessageQ());
         PeerAddressInfo peerAddressInfo = new PeerAddressInfo(peer.getAddress(), peer.getPort());
         peersMap.put(peerAddressInfo, peer);
+    }
+
+    public synchronized void removeConnection(Peer peer) {
+        connections.remove(peer);
+        PeerAddressInfo peerAddressInfo = new PeerAddressInfo(peer.getAddress(), peer.getPort());
+        peersMap.remove(peerAddressInfo);
     }
 
     public List<String> getConnectedPeersNames() {
