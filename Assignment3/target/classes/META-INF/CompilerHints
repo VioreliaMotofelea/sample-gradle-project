@@ -1,0 +1,13 @@
+dontinline,*.*_all_jmhStub
+dontinline,*.*_avgt_jmhStub
+dontinline,*.*_sample_jmhStub
+dontinline,*.*_ss_jmhStub
+dontinline,*.*_thrpt_jmhStub
+inline,org/example/benchmarks/DoubleBenchmarks$Helper.setup
+inline,org/example/benchmarks/DoubleBenchmarks.average
+inline,org/example/benchmarks/DoubleBenchmarks.sum
+inline,org/example/benchmarks/DoubleBenchmarks.top10perc
+inline,org/example/benchmarks/DoublePrimitiveBenchmarks$Helper.setup
+inline,org/example/benchmarks/DoublePrimitiveBenchmarks.average
+inline,org/example/benchmarks/DoublePrimitiveBenchmarks.sum
+inline,org/example/benchmarks/DoublePrimitiveBenchmarks.top10perc

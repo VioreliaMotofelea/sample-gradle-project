@@ -1,0 +1,4 @@
+package org.example.benchmarks.jmh_generated;
+public class ConcurrentHashmapRepoBenchmark_Helper_jmhType extends ConcurrentHashmapRepoBenchmark_Helper_jmhType_B3 {
+}
+

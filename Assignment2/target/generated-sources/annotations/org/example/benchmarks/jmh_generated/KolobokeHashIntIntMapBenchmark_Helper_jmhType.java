@@ -1,0 +1,4 @@
+package org.example.benchmarks.jmh_generated;
+public class KolobokeHashIntIntMapBenchmark_Helper_jmhType extends KolobokeHashIntIntMapBenchmark_Helper_jmhType_B3 {
+}
+
