@@ -4,7 +4,7 @@ import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.ints.IntSet;
 import org.example.repository._interface.IInMemoryRepository;
 
-public class FastutilRepository
+public class  FastutilRepository
         implements IInMemoryRepository<Integer> {
     IntSet entities;
 

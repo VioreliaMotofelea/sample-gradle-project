@@ -1,9 +1,8 @@
 plugins {
     id 'java'
-    id "me.champeau.jmh" version "0.7.1"
 }
 
-group = 'org.example'
+group = 'lab4'
 version = '1.0-SNAPSHOT'
 
 repositories {
@@ -11,17 +10,10 @@ repositories {
 }
 
 dependencies {
-    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation platform('org.junit:junit-bom:5.9.1')    // JUnit
     testImplementation 'org.junit.jupiter:junit-jupiter'
 }
 
 test {
     useJUnitPlatform()
 }
-
-jmh {
-    warmupIterations = 5
-    iterations = 5
-    fork = 1
-}
-
