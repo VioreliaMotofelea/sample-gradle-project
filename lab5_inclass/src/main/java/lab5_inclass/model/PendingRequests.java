@@ -70,7 +70,6 @@ public class PendingRequests {
             LockUtils.lockIfExists(groupLocks.get(group));
             try {
                 requestSourceToRequestID.get(group).removeAll(reqIdsToRemove);
-
             } finally {
                 LockUtils.unlockIfExists(groupLocks.get(group));
             }
@@ -84,7 +83,7 @@ public class PendingRequests {
         LockUtils.lockIfExists(rwLock, false);
         try {
             /* lock per group/subpart */
-            LockUtils.lockIfExists(groupLocks.get(group));
+            LockUtils.lockIfExists(groupLocks.get(group));      // main waits here
             boolean result;
             try {
                 result = requestSourceToRequestID.get(group).contains(requestId);

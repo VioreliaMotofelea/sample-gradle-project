@@ -40,7 +40,7 @@ public class Service implements AutoCloseable {
     private final AbstractProcessor<RecoveryMessage> recoveryMessageProcessor;
     private final ExecutorService threadPool;
     private final CountDownLatch serviceStarted;
-    private AtomicBoolean isActive = new AtomicBoolean();
+    private final AtomicBoolean isActive = new AtomicBoolean();
 
     public Service(Collection<String> groups, int poolSize) {
         this.groups = Collections.unmodifiableCollection(groups);
@@ -96,6 +96,15 @@ public class Service implements AutoCloseable {
         }, message.getGroup());
     }
 
+    public void removeMessage(Message message) {
+        pendingRequests.run(() -> pendingRequests.removeRequest(message.getGroup(), Collections.singleton(message.getId())), message.getGroup());
+    }
+
+    public void savePendingRequest(Message message) {
+        pendingRequests.getPendingRequestIds(message.getGroup()).add(message.getId());
+        LOGGER.info("pending " + message.getId());
+    }
+
     public void recover(RecoveryMessage message) {
         pendingRequests.run(() -> recoveryMessageProcessor.process(message), message.getGroup());
     }
@@ -110,15 +119,6 @@ public class Service implements AutoCloseable {
 
     public Collection<String> getGroups() {
         return groups;
-    }
-
-    public void removeMessage(Message message) {
-        pendingRequests.run(() -> pendingRequests.removeRequest(message.getGroup(), Collections.singleton(message.getId())), message.getGroup());
-    }
-
-    public void savePendingRequest(Message message) {
-        pendingRequests.getPendingRequestIds(message.getGroup()).add(message.getId());
-        LOGGER.info("pending " + message.getId());
     }
 
     protected Runnable createProcessTask(Message message) {

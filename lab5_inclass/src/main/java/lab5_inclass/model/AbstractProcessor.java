@@ -41,7 +41,7 @@ public abstract class AbstractProcessor<T> {
             return;
         }
 
-        synchronized (lock) {
+        synchronized (lock) {       // thread 17 waits here
             if (PROCESSING == state.get()) {
                 doProcess(element);
                 return;
