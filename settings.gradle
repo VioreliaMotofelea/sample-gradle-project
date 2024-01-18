@@ -1,5 +1,12 @@
 rootProject.name = 'sample-project'
 include 'day1'
 include 'day2'
+include 'lab1'
 include 'jmh'
+include 'lab2'
+include 'lab3'
+include 'lab4'
+include 'lab5_inclass'
+include 'lab5'
+include 'lab6'
 
