@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.calculator.operations.TestSubtractOperation" tests="7" skipped="0" failures="0" errors="0" timestamp="2024-10-21T14:23:35" hostname="Bogdans-MacBook-Pro.local" time="0.05">
+  <properties/>
+  <testcase name="subtractsTwoZeros()" classname="com.example.calculator.operations.TestSubtractOperation" time="0.008"/>
+  <testcase name="subtractsTwoPositiveNumbers()" classname="com.example.calculator.operations.TestSubtractOperation" time="0.004"/>
+  <testcase name="subtractsNumberFromZero()" classname="com.example.calculator.operations.TestSubtractOperation" time="0.002"/>
+  <testcase name="subtractsTwoNegativeNumbers()" classname="com.example.calculator.operations.TestSubtractOperation" time="0.004"/>
+  <testcase name="subtractsZeroFromNumber()" classname="com.example.calculator.operations.TestSubtractOperation" time="0.001"/>
+  <testcase name="subtractsNegativeAndPositiveNumber()" classname="com.example.calculator.operations.TestSubtractOperation" time="0.004"/>
+  <testcase name="subtractsPositiveAndNegativeNumber()" classname="com.example.calculator.operations.TestSubtractOperation" time="0.005"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.calculator.operations.TestDivideOperation" tests="6" skipped="0" failures="0" errors="0" timestamp="2024-10-21T14:23:35" hostname="Bogdans-MacBook-Pro.local" time="0.041">
+  <properties/>
+  <testcase name="testDivideByZero()" classname="com.example.calculator.operations.TestDivideOperation" time="0.008"/>
+  <testcase name="testDivideNegativeByPositive()" classname="com.example.calculator.operations.TestDivideOperation" time="0.003"/>
+  <testcase name="testDividePositiveByNegative()" classname="com.example.calculator.operations.TestDivideOperation" time="0.003"/>
+  <testcase name="testDividePositiveNumbers()" classname="com.example.calculator.operations.TestDivideOperation" time="0.003"/>
+  <testcase name="testDivideNegativeNumbers()" classname="com.example.calculator.operations.TestDivideOperation" time="0.002"/>
+  <testcase name="testDivideZero()" classname="com.example.calculator.operations.TestDivideOperation" time="0.003"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
