@@ -52,4 +52,9 @@ public class TestMaxOperation {
     public void testMaxNumberToMinValue() {
         assertEquals(5.0, maxOperation.calculate(Double.MIN_VALUE, 5), 0.00001);
     }
+
+    @Test
+    public void testMaxToString() {
+        assertEquals("Max", maxOperation.toString());
+    }
 }

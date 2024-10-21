@@ -38,4 +38,8 @@ public class TestMultiplication {
         assertEquals(0.0, multiplicationOperation.calculate(0.0, 0.0), 0.00001);
     }
 
+    @Test
+    public void testMultiplicationToString() {
+        assertEquals("Multiplication", multiplicationOperation.toString());
+    }
 }

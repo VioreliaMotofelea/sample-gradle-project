@@ -33,4 +33,9 @@ public class TestSqrtOperation {
     public void testSqrtNegativeNumber() {
         assertThrows(IllegalArgumentException.class, () -> sqrtOperation.calculate(-4.0, 0));
     }
+
+    @Test
+    public void testSqrtToString() {
+        assertEquals("Square Root", sqrtOperation.toString());
+    }
 }

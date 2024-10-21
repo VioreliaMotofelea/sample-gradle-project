@@ -90,4 +90,16 @@ public class TestCalculator {
     public void testInvalidOperator() {
         assertThrows(IllegalArgumentException.class, () -> calculator.calculate(2.0, 2.0, "invalid"));
     }
+    
+    @Test
+    public void testDefaultConstructor() {
+        CalculatorInterface defaultCalculator = new Calculator();
+        assertEquals(4.0, defaultCalculator.calculate(2.0, 2.0, "+"), 0.00001);
+        assertEquals(0.0, defaultCalculator.calculate(2.0, 2.0, "-"), 0.00001);
+        assertEquals(4.0, defaultCalculator.calculate(2.0, 2.0, "*"), 0.00001);
+        assertEquals(1.0, defaultCalculator.calculate(2.0, 2.0, "/"), 0.00001);
+        assertEquals(2.0, defaultCalculator.calculate(4.0, 0.0, "sqrt"), 0.00001);
+        assertEquals(2.0, defaultCalculator.calculate(2.0, 4.0, "min"), 0.00001);
+        assertEquals(4.0, defaultCalculator.calculate(2.0, 4.0, "max"), 0.00001);
+    }
 }

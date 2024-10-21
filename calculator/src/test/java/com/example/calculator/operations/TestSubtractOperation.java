@@ -46,4 +46,10 @@ public class TestSubtractOperation {
         SubtractOperation operation = new SubtractOperation();
         assertEquals(0, operation.calculate(0, 0));
     }
+
+    @Test
+    void subtractToString() {
+        SubtractOperation operation = new SubtractOperation();
+        assertEquals("Subtraction", operation.toString());
+    }
 }

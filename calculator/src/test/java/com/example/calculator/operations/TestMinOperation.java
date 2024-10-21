@@ -52,4 +52,9 @@ public class TestMinOperation {
     public void testMinNumberToMinValue() {
         assertEquals(Double.MIN_VALUE, minOperation.calculate(Double.MIN_VALUE, 5), 0.00001);
     }
+
+    @Test
+    public void testMinToString() {
+        assertEquals("Min", minOperation.toString());
+    }
 }

@@ -43,4 +43,9 @@ public class TestDivideOperation {
     public void testDivideByZero() {
         assertThrows(IllegalArgumentException.class, () -> divideOperation.calculate(2.0, 0.0));
     }
+
+    @Test
+    public void testDivideToString() {
+        assertEquals("Division", divideOperation.toString());
+    }
 }

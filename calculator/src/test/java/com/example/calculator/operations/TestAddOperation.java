@@ -34,4 +34,9 @@ public class TestAddOperation {
     public void testAddZero() {
         Assertions.assertEquals(2.0, addOperation.calculate(0.0, 2.0), 0.00001);
     }
+
+    @Test
+    public void testAddToString() {
+        Assertions.assertEquals("Addition", addOperation.toString());
+    }
 }
