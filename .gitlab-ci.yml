@@ -31,5 +31,5 @@ test:
   artifacts:
     paths:
       - build/reports/jacoco/testCodeCoverageReport/html/
-    coverage: '/TESTS\s*:\s*\d+\s*tests,.*\s*(\d+)\s*passed/'
+  coverage: '/TESTS\s*:\s*\d+\s*tests,.*\s*(\d+)\s*passed/'
 
