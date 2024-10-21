@@ -1,24 +1,75 @@
 plugins {
     id 'java'
+    id 'jacoco'
+    id 'jacoco-report-aggregation'
 }
 
-group 'com.example'
-version '1.0-SNAPSHOT'
+configure(rootProject) {
+    dependencies {
+        jacocoAggregation rootProject.subprojects
+    }
+}
+
+group = 'com.example'
+version = '1.0-SNAPSHOT'
+sourceCompatibility = 11
 
 repositories {
     mavenCentral()
 }
 
-dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'jacoco'
+
+    dependencies {
+        implementation group: 'commons-cli', name: 'commons-cli', version: '1.5.0'
+        implementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
+
+        implementation group: 'com.google.guava', name: 'guava', version: '32.1.2-jre'
+
+        implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.20.0'
+
+        testImplementation platform('org.junit:junit-bom:5.9.1')
+        testImplementation 'org.junit.jupiter:junit-jupiter'
+
+        testImplementation group: 'junit', name: 'junit', version: '4.13.1'
+
+        testImplementation group: 'org.hamcrest', name: 'hamcrest-core', version: '2.2'
+        testImplementation group: 'org.hamcrest', name: 'hamcrest', version: '2.2'
+
+        testImplementation group: 'org.mockito', name: 'mockito-core', version: '5.5.0'
+    }
+
+    test {
+        useJUnitPlatform()
+        reports {
+            junitXml.mergeReruns = true
+        }
+
+        jacoco {
+            includes = ["**"]
+        }
+    }
+
+    jacocoTestReport {
+        dependsOn test // tests are required to run before generating the report
+        reports {
+            xml.required = true
+            csv.required = false
+            html.required = false
+        }
+    }
+
+    jacoco {
+        toolVersion = "0.8.5"
+    }
+
 }
 
-test {
-    useJUnitPlatform()
-}
+test.finalizedBy jacocoTestReport
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+task uploadCoverage(type:Exec, dependsOn: testCodeCoverageReport) {
+    description 'Uploads coverage data to Codacy.'
+    commandLine 'bash', '-c', 'bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml'
 }

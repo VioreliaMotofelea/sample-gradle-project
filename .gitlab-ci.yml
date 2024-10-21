@@ -1,0 +1,35 @@
+stages:
+  - build
+  - test
+
+
+# Define the image that contains Java and Gradle
+image: gradle:8.0-jdk11
+
+before_script:
+  # Set up the Gradle wrapper
+  - chmod +x ./gradlew
+
+# Define job templates for reuse
+.default_template: &default_template
+  stage: build
+  script:
+    - ./gradlew assemble
+
+# Build job
+build:
+  <<: *default_template
+  artifacts:
+    paths:
+      - build/libs/*.jar
+
+# Test job
+test:
+  stage: test
+  script:
+    - ./gradlew test uploadCoverage
+  artifacts:
+    paths:
+      - build/reports/jacoco/testCodeCoverageReport/html/
+  coverage: '/TESTS\s*:\s*\d+\s*tests,.*\s*(\d+)\s*passed/'
+
