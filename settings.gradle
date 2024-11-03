@@ -3,3 +3,5 @@ include 'day1'
 include 'day2'
 include 'jmh'
 include 'lab1'
+include 'lab2'
+

@@ -1,0 +1,38 @@
+plugins {
+    id 'java'
+    id "me.champeau.jmh" version "0.7.1"
+}
+
+group = 'com.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+
+    implementation 'org.eclipse.collections:eclipse-collections:11.1.0'
+    implementation 'org.eclipse.collections:eclipse-collections-api:11.1.0'
+    implementation 'org.eclipse.collections:eclipse-collections-forkjoin:11.1.0'
+    testImplementation 'org.eclipse.collections:eclipse-collections-testutils:11.1.0'
+
+    implementation 'it.unimi.dsi:fastutil:8.5.7'
+
+    implementation 'com.koloboke:koloboke-api-jdk8:1.0.0'
+    implementation 'com.koloboke:koloboke-impl-jdk8:1.0.0'
+
+    // implementation 'gnu.trove:trove4j:2021.12.23'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+jmh {
+    warmupIterations = 2
+    iterations = 2
+    fork = 2
+}
