@@ -24,7 +24,7 @@ import org.openjdk.jmh.infra.Blackhole;
 @Fork(1)
 @State(Scope.Benchmark)
 public class PrimitiveStreams {
-    @Param({"1", "31", "65", "101", "103", "1024", "10240", "65535", "21474836"})
+    @Param({"1"})
     public int size;
 
     @Benchmark
