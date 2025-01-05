@@ -3,4 +3,6 @@ include 'day1'
 include 'day2'
 include 'calculator'
 include 'jmh'
-
+include 'server'
+include 'client'
+include 'p2pserver'

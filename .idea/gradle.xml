@@ -10,9 +10,11 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/calculator" />
+            <option value="$PROJECT_DIR$/client" />
             <option value="$PROJECT_DIR$/day1" />
             <option value="$PROJECT_DIR$/day2" />
-            <option value="$PROJECT_DIR$/lab2" />
+            <option value="$PROJECT_DIR$/jmh" />
+            <option value="$PROJECT_DIR$/server" />
           </set>
         </option>
       </GradleProjectSettings>
