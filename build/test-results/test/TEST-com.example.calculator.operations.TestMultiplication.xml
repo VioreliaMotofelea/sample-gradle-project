@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.calculator.operations.TestMultiplication" tests="5" skipped="0" failures="0" errors="0" timestamp="2024-10-21T14:23:35" hostname="Bogdans-MacBook-Pro.local" time="0.037">
+  <properties/>
+  <testcase name="testMultiplyPositiveNumbers()" classname="com.example.calculator.operations.TestMultiplication" time="0.007"/>
+  <testcase name="testMultiplyNegativeNumbers()" classname="com.example.calculator.operations.TestMultiplication" time="0.005"/>
+  <testcase name="testMultiplyPositiveAndNegativeNumbers()" classname="com.example.calculator.operations.TestMultiplication" time="0.005"/>
+  <testcase name="testMultiplyTwoZeros()" classname="com.example.calculator.operations.TestMultiplication" time="0.002"/>
+  <testcase name="testMultiplyZero()" classname="com.example.calculator.operations.TestMultiplication" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
