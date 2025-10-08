@@ -29,5 +29,4 @@ Add the generated Project API as a variable in GiLab's project CI/CD settings (G
 Codacy provide status Badges that can be integrated with GitLab:
 ![Codacy Badge](/images/codacy_badge.png?raw=true "Codacy Badge")
 
-
-
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/de4f266e479a4789b9081f047026c630)](https://app.codacy.com/gl/alextm0/ppoc-laboratory/dashboard?utm_source=gl&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
