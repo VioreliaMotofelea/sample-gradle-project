@@ -18,7 +18,6 @@ public class Validator {
         boolean expectOperand = true;
 
         while (i < tokens.length) {
-            String token = tokens[i];
 
             if (expectOperand) {
                 i = validateOperand(tokens, i, errors);
