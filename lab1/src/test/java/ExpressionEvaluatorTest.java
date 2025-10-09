@@ -20,38 +20,38 @@ public class ExpressionEvaluatorTest {
 
 
     @Test
-    void addition_shouldReturnCorrectResult() throws ValidationException {
+    void additionShouldReturnCorrectResult() throws ValidationException {
         double result = evaluator.evaluate("1 + 2");
         assertEquals(3, result);
     }
 
     @Test
-    void subtraction_shouldReturnCorrectResult() throws ValidationException {
+    void subtractionShouldReturnCorrectResult() throws ValidationException {
         double result = evaluator.evaluate("5 - 3");
         assertEquals(2, result);
     }
 
     @Test
-    void multiplication_shouldReturnCorrectResult() throws ValidationException {
+    void multiplicationShouldReturnCorrectResult() throws ValidationException {
         double result = evaluator.evaluate("4 * 3");
         assertEquals(12, result);
     }
 
     @Test
-    void division_shouldReturnCorrectResult() throws ValidationException {
+    void divisionShouldReturnCorrectResult() throws ValidationException {
         double result = evaluator.evaluate("10 / 2");
         assertEquals(5, result);
     }
 
 
     @Test
-    void min_shouldReturnSmallerOperand() throws ValidationException {
+    void minShouldReturnSmallerOperand() throws ValidationException {
         double result = evaluator.evaluate("min 10 3");
         assertEquals(3, result);
     }
 
     @Test
-    void max_shouldReturnLargerOperand() throws ValidationException {
+    void maxShouldReturnLargerOperand() throws ValidationException {
         double result = evaluator.evaluate("max 10 3");
         assertEquals(10, result);
     }
@@ -60,25 +60,25 @@ public class ExpressionEvaluatorTest {
 
 
     @Test
-    void combinedExpression_shouldRespectPrecedence() throws ValidationException {
+    void combinedExpressionShouldRespectPrecedence() throws ValidationException {
         double result = evaluator.evaluate("1 + 2 * 3");
         assertEquals(7, result);
     }
 
     @Test
-    void expressionWithMinMax_shouldReturnCorrectResult() throws ValidationException {
+    void expressionWithMinMaxShouldReturnCorrectResult() throws ValidationException {
         double result = evaluator.evaluate("1 + min 5 2 * max 2 3");
         assertEquals(7, result);
     }
 
 
     @Test
-    void invalidExpression_shouldThrowValidationException() {
+    void invalidExpressionShouldThrowValidationException() {
         assertThrows(ValidationException.class, () -> evaluator.evaluate("+ 2 3"));
     }
 
     @Test
-    void divisionByZero_shouldThrowArithmeticException() throws ValidationException {
+    void divisionByZeroShouldThrowArithmeticException() throws ValidationException {
         Exception ex = assertThrows(ArithmeticException.class, () -> evaluator.evaluate("5 / 0"));
         assertTrue(ex.getMessage().contains("divide by zero"));
     }

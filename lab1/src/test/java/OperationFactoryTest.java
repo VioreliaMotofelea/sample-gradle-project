@@ -7,38 +7,38 @@ import static org.junit.jupiter.api.Assertions.*;
 public class OperationFactoryTest {
 
     @Test
-    void unknownOperand_shouldThrowIllegalArgumentException() {
+    void unknownOperandShouldThrowIllegalArgumentException() {
         Exception ex = assertThrows(IllegalArgumentException.class, () -> OperationFactory.get("^"));
         assertTrue(ex.getMessage().contains("Unknown"));
     }
 
     @Test
-    void plus_shouldReturnAddition() {
+    void plusShouldReturnAddition() {
         assertInstanceOf(Addition.class, OperationFactory.get("+"));
     }
 
     @Test
-    void minus_shouldReturnSubstraction() {
+    void minusShouldReturnSubstraction() {
         assertInstanceOf(Substraction.class, OperationFactory.get("-"));
     }
 
     @Test
-    void multiply_shouldReturnMultiplication() {
+    void multiplyShouldReturnMultiplication() {
         assertInstanceOf(Multiplication.class, OperationFactory.get("*"));
     }
 
     @Test
-    void divide_shouldReturnDivision() {
+    void divideShouldReturnDivision() {
         assertInstanceOf(Division.class, OperationFactory.get("/"));
     }
 
     @Test
-    void min_shouldReturnMin() {
+    void minShouldReturnMin() {
         assertInstanceOf(Min.class, OperationFactory.get("min"));
     }
 
     @Test
-    void max_shouldReturnMax() {
+    void maxShouldReturnMax() {
         assertInstanceOf(Max.class, OperationFactory.get("max"));
     }
 }

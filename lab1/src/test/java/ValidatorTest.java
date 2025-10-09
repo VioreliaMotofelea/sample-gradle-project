@@ -1,5 +1,6 @@
-package com.example.validator;
 
+import com.example.validator.ValidationException;
+import com.example.validator.Validator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
