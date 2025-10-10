@@ -2,6 +2,8 @@ stages:
   - build
   - test
 
+variables:
+  CODACY_PROJECT_TOKEN: "c54673f0584242f8836729fd5ab0c0b9"
 
 # Define the image that contains Java and Gradle
 image: gradle:8.0-jdk11
