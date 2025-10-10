@@ -6,12 +6,11 @@ package com.example;
 public class Greeter1 {
 
     /**
-     * This is a constructor.
+     * This method greets the person.
+     * @param someone the person to greet
+     * @return the greeting message
+     * @throws Exception if the person is not valid
      */
-    public Greeter1() {
-    }
-
-    //TODO: Add javadoc comment
     public String greet(String someone) {
         try {
             return String.format("Hello, %s!", someone);

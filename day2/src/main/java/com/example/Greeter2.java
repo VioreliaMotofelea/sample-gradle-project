@@ -6,13 +6,10 @@ package com.example;
 public class Greeter2 {
 
     /**
-     * This is a constructor.
+     * This method greets the person.
+     * @param someone the person to greet
+     * @return the greeting message
      */
-    public Greeter2() {
-
-    }
-
-    //TODO: Add javadoc comment
     public String greet(String someone) {
         return String.format("Hello, %s!", someone);
     }

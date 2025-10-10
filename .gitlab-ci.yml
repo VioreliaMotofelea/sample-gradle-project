@@ -2,6 +2,8 @@ stages:
   - build
   - test
 
+variables:
+  CODACY_PROJECT_TOKEN: "c54673f0584242f8836729fd5ab0c0b9"
 
 # Define the image that contains Java and Gradle
 image: gradle:8.0-jdk11
@@ -22,13 +24,15 @@ build:
   artifacts:
     paths:
       - build/libs/*.jar
+      - lab1-calculator/build/libs/*.jar
 
 # Test job
 test:
   stage: test
   script:
     - ./gradlew test uploadCoverage
+    - ./gradlew :lab1-calculator:test
   artifacts:
     paths:
       - build/reports/jacoco/testCodeCoverageReport/html/
-
+      - lab1-calculator/build/reports/tests/test/
