@@ -22,13 +22,15 @@ build:
   artifacts:
     paths:
       - build/libs/*.jar
+      - lab1-calculator/build/libs/*.jar
 
 # Test job
 test:
   stage: test
   script:
     - ./gradlew test uploadCoverage
+    - ./gradlew :lab1-calculator:test
   artifacts:
     paths:
       - build/reports/jacoco/testCodeCoverageReport/html/
-
+      - lab1-calculator/build/reports/tests/test/
