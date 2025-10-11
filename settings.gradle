@@ -3,3 +3,6 @@ include 'day1'
 include 'day2'
 include 'jmh'
 
+
+include 'calculator'
+include 'calculator'
