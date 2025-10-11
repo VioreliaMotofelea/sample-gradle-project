@@ -3,6 +3,8 @@ Gradle sample project
 
 ## Sample multi-module gradle project integration with GitLab and Codacy
 
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/2dbb519b0b67424984c73a28a65d3a1b)](https://app.codacy.com/gl/adrianradusofariu/ppoc-labs/dashboard?utm_source=gl&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/092dd01a68f54053ad41db84abb12fe5)](https://www.codacy.com/gl/ubb-mle5109/sample-project/dashboard?utm_source=gitlab.com&amp;utm_medium=referral&amp;utm_content=ubb-mle5109/sample-project&amp;utm_campaign=Badge_Grade)
 [![Codacy Badge](https://app.codacy.com/project/badge/Coverage/092dd01a68f54053ad41db84abb12fe5)](https://www.codacy.com/gl/ubb-mle5109/sample-project/dashboard?utm_source=gitlab.com&utm_medium=referral&utm_content=ubb-mle5109/sample-project&utm_campaign=Badge_Coverage)
 
