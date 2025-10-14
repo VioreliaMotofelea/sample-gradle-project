@@ -53,7 +53,7 @@ public class ExpressionEvaluator {
         double b = values.pop();
         double a = values.pop();
         String opSymbol = ops.pop();
-        Operation op = OperationFactory.get(opSymbol);
+        Operation op = OperationFactory.getOp(opSymbol);
         values.push(op.execute(a, b));
     }
 }

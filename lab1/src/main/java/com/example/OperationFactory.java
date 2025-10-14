@@ -4,7 +4,7 @@ import com.example.operations.*;
 
 public class OperationFactory {
 
-    public static Operation get(String symbol) {
+    public static Operation getOp(String symbol) {
         switch (symbol) {
             case "+": return new Addition();
             case "-": return new Substraction();
