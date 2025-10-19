@@ -1,6 +1,7 @@
 stages:
   - build
   - test
+  - report
 
 
 # Define the image that contains Java and Gradle
@@ -30,5 +31,25 @@ test:
     - ./gradlew test uploadCoverage
   artifacts:
     paths:
+      - build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml
       - build/reports/jacoco/testCodeCoverageReport/html/
+    expire_in: 1 week
 
+codacy-report:
+  stage: report
+  image: alpine/curl:latest
+  script:
+    - REPORT_FILE="build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml"
+    - if [ ! -f "$REPORT_FILE" ]; then echo "Jacoco XML file not found. Skipping Codacy report."; exit 0; fi
+
+    - >
+      curl -sL "https://coverage.codacy.com/2.0/coverage/${CODACY_PROJECT_TOKEN}/jacoco" \
+      --header "Content-Type: multipart/form-data" \
+      --form "file=@$REPORT_FILE" \
+      --output /dev/null
+
+  dependencies:
+    - test
+  needs:
+    - job: test
+      artifacts: true
