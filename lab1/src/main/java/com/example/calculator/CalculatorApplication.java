@@ -64,14 +64,26 @@ public class CalculatorApplication {
             double num2 = Double.parseDouble(parts.get(2));
 
             switch (op) {
-                case ADD -> result = calculator.add(num1, num2);
-                case SUBTRACT -> result = calculator.subtract(num1, num2);
-                case MULTIPLY -> result = calculator.multiply(num1, num2);
-                case DIVIDE -> result = calculator.divide(num1, num2);
-                case MIN -> result = calculator.min(num1, num2);
-                case MAX -> result = calculator.max(num1, num2);
-                default ->
-                        throw new IllegalStateException("Unsupported operator: " + op);
+                case ADD:
+                    result = calculator.add(num1, num2);
+                    break;
+                case SUBTRACT:
+                    result = calculator.subtract(num1, num2);
+                    break;
+                case MULTIPLY:
+                    result = calculator.multiply(num1, num2);
+                    break;
+                case DIVIDE:
+                    result = calculator.divide(num1, num2);
+                    break;
+                case MIN:
+                    result = calculator.min(num1, num2);
+                    break;
+                case MAX:
+                    result = calculator.max(num1, num2);
+                    break;
+                default:
+                    throw new IllegalStateException("Unsupported operator: " + op);
             }
         }
         System.out.println("Result: " + result);
