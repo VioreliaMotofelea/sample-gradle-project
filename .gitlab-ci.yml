@@ -1,6 +1,7 @@
 stages:
   - build
   - test
+  - deploy_quality
 
 
 # Define the image that contains Java and Gradle
@@ -27,8 +28,21 @@ build:
 test:
   stage: test
   script:
-    - ./gradlew test uploadCoverage
+  - ./gradlew clean test jacocoTestReport
   artifacts:
     paths:
       - build/reports/jacoco/testCodeCoverageReport/html/
+      - build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml
+    expire_in: 1 week
+
+codacy_upload:
+  stage: deploy_quality
+  needs:
+    - job: test
+      optional: true
+  script:
+    - ./gradlew uploadCoverage
+  only:
+    - master
+    - merge_requests
 
