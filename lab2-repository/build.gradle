@@ -27,12 +27,6 @@ dependencies {
 
     // Trove4j
     implementation 'net.sf.trove4j:trove4j:3.0.3'
-
-    // Koloboke
-    //implementation 'com.github.LeSll:Koloboke-Collections:1.0.0'
-
-    //implementation 'com.koloboke:koloboke-api-jdk8:1.0.0'
-    //runtimeOnly 'com.koloboke:koloboke-impl:1.0.0'
 }
 
 test { useJUnitPlatform() }
