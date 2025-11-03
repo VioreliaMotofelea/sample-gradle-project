@@ -10,15 +10,29 @@ java {
     toolchain { languageVersion = JavaLanguageVersion.of(17) }
 }
 
-repositories { mavenCentral() }
+repositories {
+    mavenCentral()
+    //maven { url 'https://jitpack.io' }
+}
 
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
 
+    // Eclipse (gs) collections
     implementation 'org.eclipse.collections:eclipse-collections-api:11.1.0'
     implementation 'org.eclipse.collections:eclipse-collections:11.1.0'
 
+    // Fastutil
     implementation 'it.unimi.dsi:fastutil:8.5.12'
+
+    // Trove4j
+    implementation 'net.sf.trove4j:trove4j:3.0.3'
+
+    // Koloboke
+    //implementation 'com.github.LeSll:Koloboke-Collections:1.0.0'
+
+    //implementation 'com.koloboke:koloboke-api-jdk8:1.0.0'
+    //runtimeOnly 'com.koloboke:koloboke-impl:1.0.0'
 }
 
 test { useJUnitPlatform() }
@@ -29,4 +43,9 @@ jmh {
     fork = 1
     benchmarkMode = ['thrpt']
     timeOnIteration = '1s'
+
+    def extra = project.findProperty('jmhArgs') as String
+    if (extra) {
+        jmhArgs.addAll(extra.split('\\s+') as List)
+    }
 }

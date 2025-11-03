@@ -14,7 +14,9 @@ public class RepoBenchmarks {
     @Param({"1000", "10000", "50000"})
     int size;
 
-    @Param({"arraylist", "hashset", "treeset", "concurrent", "ec", "fastutil"})
+    @Param({"arraylist", "hashset", "treeset", "concurrent",
+            "ec", "fastutil",
+            "ec-int", "fastutil-int", "trove-int" /*, "koloboke-int"*/ })
     String impl;
 
     InMemoryRepository<Order> repo;
@@ -25,11 +27,15 @@ public class RepoBenchmarks {
     public void setup() {
         repo = switch (impl) {
             case "arraylist" -> new ArrayListBasedRepository<>();
-            case "hashset"   -> new HashSetBasedRepository<>();
-            case "treeset"   -> new TreeSetBasedRepository<>();
-            case "concurrent"-> new ConcurrentHashMapBasedRepository<>();
-            case "ec"        -> new EclipseSetBasedRepository<>();
-            case "fastutil"  -> new FastutilSetBasedRepository<>();
+            case "hashset" -> new HashSetBasedRepository<>();
+            case "treeset" -> new TreeSetBasedRepository<>();
+            case "concurrent" -> new ConcurrentHashMapBasedRepository<>();
+            case "ec" -> new EclipseSetBasedRepository<>();
+            case "ec-int" -> new EclipseIntSetBasedRepository();
+            case "fastutil" -> new FastutilSetBasedRepository<>();
+            case "fastutil-int" -> new FastutilIntSetBasedRepository();
+            case "trove-int" -> new TroveIntSetBasedRepository();
+            //case "koloboke-int" -> new KolobokeIntSetBasedRepository();
             default -> throw new IllegalArgumentException("Unknown impl: " + impl);
         };
 
