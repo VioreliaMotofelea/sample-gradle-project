@@ -1,0 +1,33 @@
+plugins {
+    id 'java'
+    id 'me.champeau.jmh' version '0.7.2'
+}
+
+group = 'com.viorelia'
+version = '1.0.0'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+jmh {
+    warmupIterations = 2
+    iterations = 3
+    fork = 1
+    benchmarkMode = ['thrpt']
+    timeOnIteration = '1s'
+}
