@@ -17,6 +17,7 @@
             <option value="$PROJECT_DIR$/jmh" />
             <option value="$PROJECT_DIR$/lab1-calculator" />
             <option value="$PROJECT_DIR$/lab2-repository" />
+            <option value="$PROJECT_DIR$/lab3-streams" />
           </set>
         </option>
       </GradleProjectSettings>
